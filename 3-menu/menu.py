@@ -18,7 +18,7 @@ items = {
 for key in category:
     print(key)
 
-chose_category = int(input('Выберите категорию, введите цисло от 1 до 3: '))
+chose_category = int(input('Выберите категорию, введите число от 1 до 3: '))
 
 chose_category = category[chose_category]
 category_items = items[chose_category]
