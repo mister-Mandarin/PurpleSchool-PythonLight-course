@@ -30,14 +30,10 @@ for key, value in category_items.items():
     print(f'Товар: {key} Стоимость: {value}')
 
 chose_item = str(input('Напишите название выбранного товара: '))
-print(f'Товар {chose_item} вам будет стоить {category_items.get(chose_item)}')
 
-# match chose_item:
-#     case category_items:
-#         print('напиток → «чай», «кофе», «сок». Цена 2000р.')
-#     case 2:
-#         print('суп → «борщ», «щи», «суп-пюре». Цена 3000р.')
-#     case 3:
-#         print('десерт → «торт», «мороженое», «фрукты». Цена 4000р.')
-#     case _:
-#         print('Товара не существует!')
+for k, v in category_items.items():
+    match k:
+        case k if k == chose_item:
+            print(f'Товар {chose_item} вам будет стоить {v}')
+        case _:
+            continue
