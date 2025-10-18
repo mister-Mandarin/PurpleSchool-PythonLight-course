@@ -7,18 +7,37 @@
 Пользователь вводит конкретное блюдо.
 Программа с помощью match case выводит цену выбранного блюда.
 '''
-category = ['Наши категории:', '1 - напиток', '2 - суп', '3 - десерт']
-for cat in category:
-    print(cat)
+category = ['Выберите категорию:', '1 - напиток', '2 - суп', '3 - десерт']
 
-chose = int(input('Выберите категорию, введите цисло от 1 до 3: '))
+items = {
+    category[1]: {'чай': 50, 'кофе': 70, 'сок': 60},
+    category[2]: {'борщ': 80, 'щи': 75, 'суп-пюре': 90},
+    category[3]: {'торт': 120, 'мороженое': 100, 'фрукты': 85}
+}
 
-match chose:
-    case 1:
-        print('напиток → «чай», «кофе», «сок». Цена 2000р.')
-    case 2:
-        print('суп → «борщ», «щи», «суп-пюре». Цена 3000р.')
-    case 3:
-        print('десерт → «торт», «мороженое», «фрукты». Цена 4000р.')
-    case _:
-        print('Категории не существует!')
+for key in category:
+    print(key)
+
+chose_category = int(input('Выберите категорию, введите цисло от 1 до 3: '))
+
+chose_category = category[chose_category]
+category_items = items[chose_category]
+
+print(f'Вы выбрали категорию {chose_category}')
+print('Вам доступны следующие товары:')
+
+for key, value in category_items.items():
+    print(f'Товар: {key} Стоимость: {value}')
+
+chose_item = str(input('Напишите название выбранного товара: '))
+print(f'Товар {chose_item} вам будет стоить {category_items.get(chose_item)}')
+
+# match chose_item:
+#     case category_items:
+#         print('напиток → «чай», «кофе», «сок». Цена 2000р.')
+#     case 2:
+#         print('суп → «борщ», «щи», «суп-пюре». Цена 3000р.')
+#     case 3:
+#         print('десерт → «торт», «мороженое», «фрукты». Цена 4000р.')
+#     case _:
+#         print('Товара не существует!')
