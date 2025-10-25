@@ -13,7 +13,7 @@ while True:
     expense = str(input("Введите расход в формате <руб> руб <коп> коп: "))
     expense = expense.lower().strip().split()
     if not 'руб' in expense:
-        print('Некорректный формат, повторите ввод')
+        print('Некорректный формат суммы')
     else:
         break
     
