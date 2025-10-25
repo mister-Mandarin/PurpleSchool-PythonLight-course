@@ -7,21 +7,27 @@
 # На выходе — сумма в виде X.YY ₽ (два знака после запятой)
 # Если формат некорректный — вывести: Некорректный формат суммы
 
-ruble_symbol = "\u20bd"
+RUBLE_SYMBOL = "\u20bd"
 
 while True:
-    expense = str(input("Введите расход в формате <руб> руб <коп> коп: "))
-    expense = expense.lower().strip().split()
+    expense = str(
+        input("Введите расход в формате <руб> руб <коп> коп: ")).lower().strip().split()
     if not 'руб' in expense:
-        print('Некорректный формат суммы')
-    else:
-        break
-    
-for el in expense:
-    if not el.isdigit():
-        expense.remove(el)
-        
-if len(expense) == 1:
-    expense.append('0')
-        
-print(f'{expense[0]}.{int(expense[1]):02d} {ruble_symbol}')
+        print('Некорректный формат суммы!')
+        continue
+
+    expense = [el for el in expense if el.isdigit()]
+
+    if not expense:
+        print('Цифры не найдены!')
+        continue
+
+    if len(expense) == 1:
+        expense.append('0')
+
+    if len(expense[-1]) > 2:
+        expense[-1] = expense[-1][:2]
+
+    break
+
+print(f'{expense[0]}.{int(expense[1]):02d} {RUBLE_SYMBOL}')
