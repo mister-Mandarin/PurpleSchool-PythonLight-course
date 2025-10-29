@@ -1,53 +1,133 @@
-# Принять строку формата "<руб> руб <коп> коп" (пример: 100 руб 10 коп)
-# и вывести нормализованную сумму в рублях с двумя знаками после запятой: 100.10 ₽.
-# Поддержать варианты без копеек ("159 руб" → "159.00 ₽").
-# Программа читает одну строку из input()
-# Регистр и лишние пробелы игнорируются
-# Допустимые слова для единиц
-# На выходе — сумма в виде X.YY ₽ (два знака после запятой)
-# Если формат некорректный — вывести: Некорректный формат суммы
+def add_expense() -> str:
+    while True:
+        expense = str(
+            input("Введите расход в формате <руб> руб <коп> коп: ")).lower().strip().split()
+        if not 'руб' in expense:
+            print('Некорректный формат суммы!')
+            continue
 
-# RUBLE_SYMBOL = "\u20bd"
+        expense = [el for el in expense if el.isdigit()]
 
-# while True:
-#     expense = str(
-#         input("Введите расход в формате <руб> руб <коп> коп: ")).lower().strip().split()
-#     if not 'руб' in expense:
-#         print('Некорректный формат суммы!')
-#         continue
+        if not expense:
+            print('Цифры не найдены!')
+            continue
 
-#     expense = [el for el in expense if el.isdigit()]
+        if len(expense) == 1:
+            expense.append('0')
 
-#     if not expense:
-#         print('Цифры не найдены!')
-#         continue
+        if len(expense[-1]) > 2:
+            expense[-1] = expense[-1][:2]
 
-#     if len(expense) == 1:
-#         expense.append('0')
-
-#     if len(expense[-1]) > 2:
-#         expense[-1] = expense[-1][:2]
-
-#     break
-
-# print(f'{expense[0]}.{int(expense[1]):02d} {RUBLE_SYMBOL}')
-
-MENU = [
-    'Меню:',
-    '1 - Добавить расход',
-    '2 - Показать все расходы',
-    '3 - Показать сумму и средний расход',
-    '4 - Удалить расход по номеру',
-    '5 - Выход'
-]
-
-print('\n'.join(MENU))
-print(f"{'-'*40}")
-
-while True:
-    user_choose = input('Введите пункт меню от 1 до 5: ')
-    if user_choose.isdigit() and 1 <= int(user_choose) <= 5:
-        print(f"Вы выбрали {MENU[int(user_choose)]}")
         break
-    else:
+
+    return f'{expense[0]}.{int(expense[1]):02d} {"\u20bd"}'
+
+
+def show_menu() -> int:
+    print(f"{'-'*40}")
+    menu = [
+        'Меню:',
+        '1 - Добавить расход',
+        '2 - Удалить расход',
+        '3 - Общая сумма расходов',
+        '4 - Средний расход',
+        '5 - Красивый отчёт по расходам',
+        '6 - Выход'
+    ]
+
+    print('\n'.join(menu))
+    print(f"{'-'*40}")
+
+    while True:
+        user_choose = input('\nВведите пункт меню от 1 до 6: ')
+
+        if user_choose.isdigit() and 1 <= int(user_choose) <= 6:
+            print(f"\nВы выбрали {menu[int(user_choose)]}")
+            break
+
         print('Некорректный ввод!')
+
+    return int(user_choose)
+
+
+def exit_program() -> None:
+    print(
+        "\nПроисходит выход из программы.\n"
+        "Все введённые данные будут удалены.\n"
+        "Досвидания!"
+    )
+
+
+def delete_expence(expenses: list[str]) -> int:
+    print_report(expenses)
+
+    while True:
+        chose = input('Введите индекс для удаления расхода: ')
+
+        if chose.isdigit() and int(chose) <= len(expenses):
+            return int(chose)
+
+
+def print_report(expenses: list[str]) -> None:
+    print('\nСписок ваших расходов')
+
+    for i, el in enumerate(expenses):
+        print(f'Индекс: {i} - значение {el}')
+
+
+def get_sum(expenses: list[str]) -> float:
+    total = sum(float(el[:-2]) for el in expenses)
+    return round(total, 2)
+
+
+def get_total(expenses: list[str]) -> None:
+    if len(expenses) == 0:
+        print('Список расходов пуст!')
+        return
+
+    total_sum: float = get_sum(expenses)
+
+    print(f'Общая сумма расходов {total_sum} {"\u20bd"}')
+
+
+def get_average(expenses: list[str]) -> None:
+    if len(expenses) == 0:
+        print('Список расходов пуст!')
+        return
+
+    total_sum: float = get_sum(expenses)
+
+    print(f'Средний расход {total_sum / len(expenses)} {"\u20bd"}')
+
+
+def main():
+    expenses: list[str] = []
+
+    while True:
+        chose = show_menu()
+        match chose:
+            case 1:  # Добавить расход
+                expenses.append(add_expense())
+            case 2 if len(expenses) > 0:  # Удалить расход
+                del_el = delete_expence(expenses)
+                expenses.pop(del_el)
+                print(f'Удалён элемент с индексом {del_el}')
+            case 3:  # Сумма расходов
+                get_total(expenses)
+            case 4:  # Средний расход
+                # get_average(expenses)
+                pass
+            case 5:  # Отчет
+                print_report(expenses)
+            case 6:  # Выход
+                exit_program()
+                break
+            case _: pass
+
+
+main()
+# add_expense(expenses, value) — добавляет расход
+# delete_expence(expenses, index) — удалить расход
+# get_total(expenses) — возвращает сумму
+# get_average(expenses) — возвращает средний расход
+# print_report(expenses) — печатает красивый отчёт
