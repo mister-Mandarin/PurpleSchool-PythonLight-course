@@ -116,7 +116,7 @@ def main():
                 del_index = delete_expence(expenses)
                 if del_index == 0:
                     continue
-                expenses.pop()
+                expenses.pop(del_index)
             case 3:  # Сумма расходов
                 get_total(expenses)
             case 4:  # Средний расход
@@ -130,8 +130,3 @@ def main():
 
 
 main()
-# add_expense(expenses, value) — добавляет расход
-# delete_expence(expenses, index) — удалить расход
-# get_total(expenses) — возвращает сумму
-# get_average(expenses) — возвращает средний расход
-# print_report(expenses) — печатает красивый отчёт
