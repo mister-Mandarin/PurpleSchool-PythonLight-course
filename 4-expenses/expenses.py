@@ -59,12 +59,16 @@ def exit_program() -> None:
 
 
 def delete_expence(expenses: list[str]) -> int:
+    if len(expenses) == 0:
+        print('Список расходов пуст!')
+        return 0
+
     print_report(expenses)
 
     while True:
         chose = input('Введите индекс для удаления расхода: ')
 
-        if chose.isdigit() and int(chose) <= len(expenses):
+        if chose.isdigit() and int(chose) < len(expenses):
             return int(chose)
 
 
@@ -108,15 +112,15 @@ def main():
         match chose:
             case 1:  # Добавить расход
                 expenses.append(add_expense())
-            case 2 if len(expenses) > 0:  # Удалить расход
-                del_el = delete_expence(expenses)
-                expenses.pop(del_el)
-                print(f'Удалён элемент с индексом {del_el}')
+            case 2:  # Удалить расход
+                del_index = delete_expence(expenses)
+                if del_index == 0:
+                    continue
+                expenses.pop()
             case 3:  # Сумма расходов
                 get_total(expenses)
             case 4:  # Средний расход
-                # get_average(expenses)
-                pass
+                get_average(expenses)
             case 5:  # Отчет
                 print_report(expenses)
             case 6:  # Выход
