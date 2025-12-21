@@ -1,15 +1,28 @@
-books = {
-    "Война и мир": "Лев Толстой",
-    "Преступление и наказание": "Фёдор Достоевский",
-    "Мастер и Маргарита": "Михаил Булгаков",
-    "Анна Каренина": "Лев Толстой",
-    "Герой нашего времени": "Михаил Лермонтов"
-}
+import sys
 
-print("Список книг:")
-for book, author in books.items():
-    print(f"{book} - {author}")
+BOOKS = [
+    {"title": "Война и мир", "author": "Лев Толстой"},
+    {"title": "Преступление и наказание", "author": "Фёдор Достоевский"},
+    {"title": "Мастер и Маргарита", "author": "Михаил Булгаков"},
+    {"title": "Анна Каренина", "author": "Лев Толстой"},
+    {"title": "Герой нашего времени", "author": "Михаил Лермонтов"}
+]
+# python library.py sort author
+# python library.py filter "Толстой"
 
-print("Список всех авторов:")
-for author in set(books.values()):
-    print(author)
+action = sys.argv[1]
+param = sys.argv[2]
+
+match action:
+    case 'sort':
+        match param:
+            case 'author':
+                print(sorted(BOOKS, key=lambda x: x['author']))
+            case 'title':
+                print(sorted(BOOKS, key=lambda x: x['title']))
+            case _:
+                print('Некорректный ввод!')
+    case 'filter':
+        print(list(filter(lambda x: param in x['author'], BOOKS)))
+    case _:
+        print('Некорректный ввод!')
