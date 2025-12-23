@@ -4,7 +4,7 @@
 
 from typing import TypedDict
 
-STATUSES = ['new', 'in_progress', 'done', 'canceled']
+STATUSES = ['new', 'in_progress', 'done', 'cancelled']
 
 
 class Order(TypedDict):
@@ -13,7 +13,7 @@ class Order(TypedDict):
     amount: float
     email: str
     status: str
-    tags: list[str]
+    tags: set[str]
     due: str | None
     created_at: str
     closed_at: str

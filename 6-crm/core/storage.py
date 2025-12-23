@@ -3,9 +3,9 @@
 '''
 
 
-def load_orders():
+def load():
     pass
 
 
-def save_orders():
+def save():
     pass
