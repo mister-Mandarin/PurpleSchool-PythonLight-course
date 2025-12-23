@@ -1,4 +1,7 @@
 # Проект - менеджер задач
+from commands.help import help_commands
+from commands.tasks import make_task
+
 
 def main():
     print('Привет! Это менеджер задач!')
@@ -12,14 +15,18 @@ def main():
 
             match cmd:
                 case 'help':
-                    print('help - список команд')
+                    help_commands()
                 case 'add':
                     pass
                 case 'remove':
                     pass
+                case 'done':
+                    pass
                 case 'edit':
                     pass
                 case 'tags':
+                    pass
+                case 'list':
                     pass
                 case 'exit':
                     print('Программа завершена')
@@ -33,4 +40,5 @@ def main():
             print("Ошибка:", e)
 
 
-main()
+if __name__ == '__main__':
+    main()
